@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-function App() {
+export default function CurrentTime() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [showTime, setShowTime] = useState(false);
+
+  const startTimer = () => {
+    setShowTime(true);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <button onClick={startTimer}>Показать время</button>
+      {showTime && (
+        <>
+        <h1>Текущее время</h1>
+        <p>{currentTime.toLocaleTimeString()}</p>
+        </>
+      )}
     </div>
   );
 }
 
-export default App;
+
